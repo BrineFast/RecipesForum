@@ -3,6 +3,7 @@ package com.university.database.controller.recipe;
 import com.university.database.model.dto.recipe.RecipeCreateDTO;
 import com.university.database.model.dto.recipe.RecipeEditDTO;
 import com.university.database.model.entity.recipe.Recipe;
+import com.university.database.model.entity.recipe.RecipeCheaper;
 import com.university.database.service.recipe.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,11 @@ public class RecipeController {
     @PatchMapping("/recipes/{id}")
     public Recipe editRecipe(@PathVariable("id") Long recipeId, @RequestBody RecipeEditDTO recipeEditDTO){
         return recipeService.editRecipe(recipeId, recipeEditDTO);
+    }
+
+    @GetMapping("/recipes/cheaper_then/{this}")
+    public List<RecipeCheaper> getRecipesCheaperThen(@PathVariable("this") Integer maxPrice){
+        return recipeService.getRecipesCheaperThen(maxPrice);
     }
 
 }

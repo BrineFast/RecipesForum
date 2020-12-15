@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Hover Placeholder With Validation</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/formMain.css">
+</head>
+<body>
+
+
+
+<div class="container">
+	<h1>Add dish</h1>
+	<form id="registration_form">
+		<div>
+			<input type="text" id="form_name" name="" required="">
+			<span class="error_form" id="name_error_message"></span>
+			<label>
+				Name
+			</label>
+		</div>
+		<input type="submit" value="Add" name="">
+	</form>
+</div>
+<script type="text/javascript">
+	$(function() {
+
+		$("#name_error_message").hide();
+
+		var error_name = false;
+
+		$("#registration_form").submit(function() {
+			error_name = false;
+
+
+			if (error_name === false) {
+				let request = {
+					title: document.getElementById("form_name").value,
+				};
+				console.log(request);
+				$.ajax({
+					url: "http://localhost:8080/dishes/create",
+					method: "post",
+					dataType: "json",
+					contentType: "application/json",
+					data: JSON.stringify(request),
+					statusCode: {
+						200: function () {
+							window.location.replace("http://localhost:4200/dishes.html");
+						}
+					},
+					xhrFields: {
+						withCredentials: true
+					}
+				});
+				alert("Dish added");
+			} else {
+				alert("Please Fill the form Correctly");
+				return false;
+			}
+		});
+	});
+</script>
+</body>
+</html>

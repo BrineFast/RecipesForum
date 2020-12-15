@@ -5,6 +5,7 @@ import com.university.database.model.dto.product.ProductEditDTO;
 import com.university.database.model.entity.product.Product;
 import com.university.database.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

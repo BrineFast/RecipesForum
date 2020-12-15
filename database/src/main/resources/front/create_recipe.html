@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Hover Placeholder With Validation</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/formMain.css">
+</head>
+<body>
+
+
+
+<div class="container">
+	<h1>Add recipe</h1>
+	<form id="registration_form">
+		<div>
+			<input type="text" id="form_name" name="" required="">
+			<span class="error_form" id="name_error_message"></span>
+			<label>
+				Name
+			</label>
+		</div>
+		<div>
+			<input type="text" id="form_technology" name="" required="">
+			<span class="error_form" id="technology_error_message"></span>
+			<label>
+				Cooking technology
+			</label>
+		</div>
+		<div>
+			<input type="text" id="form_dish" name="" required="">
+			<span class="error_form" id="dish_error_message"></span>
+			<label>Dish id</label>
+		</div>
+		<div>
+			<input type="text" id="form_group" name="" required="">
+			<span class="error_form" id="group_error_message"></span>
+			<label>Group id</label>
+		</div>
+		<div>
+			<input type="text" id="form_type" name="" required="">
+			<span class="error_form" id="type_error_message"></span>
+			<label>Type id</label>
+		</div>
+		<div>
+			<input type="text" id="form_country" name="" required="">
+			<span class="error_form" id="country_error_message"></span>
+			<label>Country id</label>
+		</div>
+		<div>
+			<input type="text" id="form_product" name="" required="">
+			<span class="error_form" id="product_error_message"></span>
+			<label>Product id</label>
+		</div>
+		<div>
+			<input type="text" id="form_season" name="" required="">
+			<span class="error_form" id="season_error_message"></span>
+			<label>Season id</label>
+		</div>
+		<input type="submit" value="Add" name="">
+	</form>
+</div>
+<script type="text/javascript">
+	$(function() {
+
+		$("#name_error_message").hide();
+		$("#dish_error_message").hide();
+		$("#country_error_message").hide();
+		$("#product_error_message").hide();
+		$("#group_error_message").hide();
+		$("#type_error_message").hide();
+		$("#season_error_message").hide();
+
+		var error_name = false;
+		var error_dish = false;
+		var error_product = false;
+		var error_country = false;
+		var error_type = false;
+		var error_group = false;
+		var error_season = false;
+
+		});
+		$("#form_dish").focusout(function() {
+			check_dish();
+		});
+		$("#form_group").focusout(function() {
+			check_group();
+		});
+		$("#form_type").focusout(function() {
+			check_type();
+		});
+		$("#form_season").focusout(function() {
+			check_season();
+		})
+		;$("#form_product").focusout(function() {
+			check_product();
+		});
+		$("#form_country").focusout(function() {
+			check_country();
+		});
+
+		function check_dish() {
+			var dish = $("#form_dish").val();
+			if (dish !== '' && dish > 0){
+				$("#dish_error_message").hide();
+				$("#form_dish").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#dish_error_message").html("Should be > 0 and < 10000");
+				$("#dish_error_message").show();
+				$("#form_dish").css("border-bottom","2px solid #F90A0A");
+				error_dish = true;
+			}
+		}
+		function check_group() {
+			var country = $("#form_group").val();
+			if (country !== '' && country > 0){
+				$("#group_error_message").hide();
+				$("#form_group").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#group_error_message").html("Should be > 0");
+				$("#group_error_message").show();
+				$("#form_group").css("border-bottom","2px solid #F90A0A");
+				error_country = true;
+			}
+		}
+		function check_product() {
+			var product = $("#form_product").val();
+			if (product !== '' && product > 0){
+				$("#product_error_message").hide();
+				$("#form_product").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#product_error_message").html("Should be > 0");
+				$("#product_error_message").show();
+				$("#form_product").css("border-bottom","2px solid #F90A0A");
+				error_country = true;
+			}
+		}
+		function check_country() {
+			var country = $("#form_country").val();
+			if (country !== '' && country > 0){
+				$("#country_error_message").hide();
+				$("#form_country").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#country_error_message").html("Should be > 0");
+				$("#country_error_message").show();
+				$("#form_country").css("border-bottom","2px solid #F90A0A");
+				error_country = true;
+			}
+		}
+
+		function check_type() {
+			var type = $("#form_type").val();
+			if (type !== '' && type > 0){
+				$("#type_error_message").hide();
+				$("#form_type").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#type_error_message").html("Should be > 0");
+				$("#type_error_message").show();
+				$("#form_type").css("border-bottom","2px solid #F90A0A");
+				error_type = true;
+			}
+		}
+
+		function check_season() {
+			var season = $("#form_season").val();
+			if (season !== '' && season > 0){
+				$("#season_error_message").hide();
+				$("#form_season").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#season_error_message").html("Should be > 0");
+				$("#season_error_message").show();
+				$("#form_season").css("border-bottom","2px solid #F90A0A");
+				error_season = true;
+			}
+		}
+
+		$("#registration_form").submit(function() {
+			error_name = false;
+			error_dish = false;
+			error_type = false;
+			error_season = false;
+			error_group = false;
+			error_product= false;
+			error_country = false;
+
+			check_group();
+			check_dish();
+			check_season();
+			check_type();
+			check_product();
+			check_country();
+
+			if (error_name === false && error_group === false && error_dish === false && error_season === false && error_type === false && error_country === false && error_product === false) {
+				let request = {
+					name: document.getElementById("form_name").value,
+					groupId: document.getElementById("form_group").value,
+					dishId: document.getElementById("form_dish").value,
+					typeId: document.getElementById("form_type").value,
+					seasonId: document.getElementById("form_season").value,
+					productId: document.getElementById("form_product").value,
+					countryId: document.getElementById("form_country").value,
+					cookingTechnology: document.getElementById("form_technology").value,
+				};
+				console.log(request);
+				$.ajax({
+					url: "http://localhost:8080/recipes/create",
+					method: "post",
+					dataType: "json",
+					contentType: "application/json",
+					data: JSON.stringify(request),
+					statusCode: {
+						200: function () {
+							window.location.replace("http://localhost:4200/recipes.html");
+						}
+					},
+					xhrFields: {
+						withCredentials: true
+					}
+				});
+				alert("Product added");
+				window.location.replace("http://localhost:4200/recipes.html");
+			} else {
+				alert("Please Fill the form Correctly");
+				return false;
+			}
+		});
+</script>
+</body>
+</html>

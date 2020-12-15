@@ -2,11 +2,13 @@ package com.university.database.controller.dish;
 
 import com.university.database.model.dto.dish.DishCreateDTO;
 import com.university.database.model.dto.dish.DishEditDTO;
+import com.university.database.model.entity.dish.DishTop;
 import com.university.database.model.entity.dish.Dish;
 import com.university.database.service.dish.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -33,5 +35,10 @@ public class DishController {
     @PostMapping("/dishes/{id}")
     public Dish editDish(@PathVariable("id") Long dishId, @RequestBody DishEditDTO dishEditDTO){
         return dishService.editDish(dishId, dishEditDTO);
+    }
+
+    @GetMapping("/dishes/top")
+    public List<DishTop> getTopTen() throws ParseException {
+        return dishService.getTopTenDishes();
     }
 }

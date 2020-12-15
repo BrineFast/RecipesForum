@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Hover Placeholder With Validation</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/formMain.css">
+</head>
+<body>
+
+
+
+<div class="container">
+	<h1>Enter the maximum price</h1>
+	<form id="registration_form">
+		<div>
+			<input type="text" id="form_name" name="" required="">
+			<span class="error_form" id="name_error_message"></span>
+			<label>
+				Price
+			</label>
+		</div>
+		<input type="submit" value="Search" name="">
+	</form>
+</div>
+<script type="text/javascript">
+	$(function() {
+
+		$("#name_error_message").hide();
+
+		$("#registration_form").submit(function() {
+			$.ajax({
+				url: "http://localhost:4200/recipes_cheaper.html?price=" + document.getElementById("form_name").value,
+				type: "GET",
+				headers: {"Accept": "application/json", "Content-Type": "application/json"},
+				success: function() {
+					location.href = "http://localhost:4200/recipes_cheaper.html?price=" + document.getElementById("form_name").value;
+				},
+				error: function() {
+					alert("error");
+				}
+			});
+		});
+	});
+</script>
+</body>
+</html>

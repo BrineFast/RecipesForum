@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add dish feedback</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/formMain.css">
+</head>
+<body>
+
+
+<div class="container">
+    <h1>Add dish feedback</h1>
+    <form id="registration_form">
+        <div>
+            <input type="text" id="form_title" name="" required="">
+            <span class="error_form" id="title_error_message"></span>
+            <label>
+                Title
+            </label>
+        </div>
+        <div>
+            <input type="text" id="form_mark" name="" required="">
+            <span class="error_form" id="mark_error_message"></span>
+            <label>
+                Mark
+            </label>
+        </div>
+        <div>
+            <input type="text" id="form_text" name="" required="">
+            <span class="error_form" id="text_error_message"></span>
+            <label>
+                Text
+            </label>
+        </div>
+        <input type="submit" value="Add" name="">
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        $("#title_error_message").hide();
+        $("#mark_error_message").hide();
+        $("#text_error_message").hide();
+
+        var error_title = false;
+        var error_mark = false;
+        var error_text = false;
+
+        $("#form_title").focusout(function () {
+            check_title();
+        });
+        $("#form_text").focusout(function () {
+            check_text();
+        });
+        $("#form_mark").focusout(function () {
+            check_mark();
+        });
+
+        function check_title() {
+            var pattern = /^[a-zA-Z]*$/;
+            var title = $("#form_title").val();
+            if (pattern.test(title) && title !== '') {
+                $("#title_error_message").hide();
+                $("#form_title").css("border-bottom", "2px solid #34F458");
+            } else {
+                $("#title_error_message").html("Only characters");
+                $("#title_error_message").show();
+                $("#form_title").css("border-bottom", "2px solid #F90A0A");
+                error_title = true;
+            }
+        }
+
+        function check_text() {
+            $("#name_error_message").hide();
+            $("#form_text").css("border-bottom", "2px solid #34F458");
+            error_text = false;
+        }
+
+        function check_mark() {
+            var mark = $("#form_mark").val();
+            if (mark !== '' && mark >= 0 && mark <= 10) {
+                $("#mark_error_message").hide();
+                $("#form_mark").css("border-bottom", "2px solid #34F458");
+            } else {
+                $("#mark_error_message").html("Should be >= 0 and <= 10");
+                $("#mark_error_message").show();
+                $("#form_mark").css("border-bottom", "2px solid #F90A0A");
+                error_mark = true;
+            }
+        }
+
+        $("#registration_form").submit(function () {
+            error_mark = false;
+            error_text = false;
+            error_title = false;
+
+            check_text();
+            check_title();
+            check_mark();
+
+            if (error_title === false && error_text === false && error_mark === false) {
+                let request = {
+                    title: document.getElementById("form_title").value,
+                    text: document.getElementById("form_text").value,
+                    mark: document.getElementById("form_mark").value,
+                };
+                const searchString = new URLSearchParams(window.location.search);
+                const dishId = searchString.get('id');
+                console.log(dishId);
+                $.ajax({
+                    url: "http://localhost:8080/dishes/" + dishId + "/feedbacks/create",
+                    method: "post",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(request),
+                    xhrFields: {
+                        withCredentials: true
+                    }
+                });
+                window.location.replace("http://localhost:4200/dish.html?id=" + dishId);
+                alert("Feedback added");
+            } else {
+                alert("Please Fill the form Correctly");
+                return false;
+            }
+        });
+    })
+    ;
+</script>
+</body>
+</html>

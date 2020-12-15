@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hover Placeholder With Validation</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/formMain.css">
+    <script>
+        $(function() {
+            $( "#datepicker" ).datepicker();
+        });
+    </script>
+</head>
+<body>
+
+
+<div class="container">
+    <h1>Add seasson</h1>
+    <form id="registration_form">
+        <div>
+            <input type="text" id="form_name" name="" required="">
+            <span class="error_form" id="name_error_message"></span>
+            <label>
+                Name
+            </label>
+        </div>
+        <div>
+            <input type="datetime-local" id="form_start" name="" required="">
+            <span class="error_form" id="start_error_message"></span>
+            <label>
+                Start date
+            </label>
+        </div>
+        <div>
+            <input type="datetime-local" id="form_end" name="" required="">
+            <span class="error_form" id="end_error_message"></span>
+            <label>End date</label>
+        </div>
+        <input type="submit" value="Add" name="">
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        $("#name_error_message").hide();
+        $("#start_error_message").hide();
+        $("#end_error_message").hide();
+
+        var error_name = false;
+        var error_start = false;
+        var error_end = false;
+
+        $("#form_name").focusout(function () {
+            check_name();
+        });
+        $("#form_start").focusout(function () {
+            check_start();
+        });
+        $("#form_end").focusout(function () {
+            check_end();
+        });
+
+        function check_name() {
+            var pattern = /^[a-zA-Z]*$/;
+            var water = $("#form_name").val();
+            if (pattern.test(water) && water !== '') {
+                $("#name_error_message").hide();
+                $("#form_name").css("border-bottom", "2px solid #34F458");
+            } else {
+                $("#name_error_message").html("Only characters");
+                $("#name_error_message").show();
+                $("#form_name").css("border-bottom", "2px solid #F90A0A");
+                error_name = true;
+            }
+        }
+
+        function check_start() {
+            var start = $("#form_start").val();
+            var end = $("#form_end").val();
+            if (dates.compare(start, end)) {
+                $("#start_error_message").hide();
+                $("#form_start").css("border-bottom", "2px solid #34F458");
+            } else {
+                $("#start_error_message").html("Should be < then end");
+                $("#start_error_message").show();
+                $("#form_start").css("border-bottom", "2px solid #F90A0A");
+                error_start = true;
+            }
+        }
+
+        function check_end(){
+        var start = $("#form_start").val();
+        var end = $("#form_end").val();
+        if (dates.compare(start, end)) {
+            $("#end_error_message").hide();
+            $("#form_end").css("border-bottom", "2px solid #34F458");
+        } else {
+            $("#end_error_message").html("Should be > then start");
+            $("#end_error_message").show();
+            $("#form_end").css("border-bottom", "2px solid #F90A0A");
+            error_end = true;
+        }
+    }
+
+    $("#registration_form").submit(function () {
+        error_name = false;
+        error_start = false;
+        error_end = false;
+
+        check_name();
+        check_end();
+        check_start();
+
+        if (error_name === false && error_start === false && error_end === false) {
+            let request = {
+                name: document.getElementById("form_name").value,
+                start: document.getElementById("form_start").value,
+                end: document.getElementById("form_end").value,
+            };
+            console.log(request);
+            $.ajax({
+                url: "http://localhost:8080/season/create",
+                method: "post",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(request),
+                statusCode: {
+                    200: function () {
+                        window.location.replace("http://localhost:4200/seasons.html");
+                    }
+                },
+                xhrFields: {
+                    withCredentials: true
+                }
+            });
+            alert("Season added");
+        } else {
+            alert("Please Fill the form Correctly");
+            return false;
+        }
+    });
+    })
+    ;
+</script>
+</body>
+</html>

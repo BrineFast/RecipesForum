@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @EnableTransactionManagement
@@ -36,6 +37,14 @@ public class FeedbackService {
 
     public Feedback getFeedback(Long feedbackId){
         return feedbackRepo.findById(feedbackId).orElseThrow(() -> new ItemNotFoundException("Feedback with id " + feedbackId.toString() + " not found."));
+    }
+
+    public Set<Feedback> getDishFeedbacks(Long dishId){
+        return dishRepo.findById(dishId).get().getFeedbacks();
+    }
+
+    public Set<Feedback> getRecipeFeedbacks(Long recipeId){
+        return recipeRepo.findById(recipeId).get().getFeedbacks();
     }
 
     @Transactional

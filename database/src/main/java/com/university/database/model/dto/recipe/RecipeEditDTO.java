@@ -22,7 +22,7 @@ public class RecipeEditDTO {
 
     private Long seasonId;
 
-    private Set<Product> products;
+    private Long productId;
 
-    private Set<Country> countries;
+    private Long countryId;
 }

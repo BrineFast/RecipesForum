@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class FeedbackController {
@@ -20,14 +21,24 @@ public class FeedbackController {
         return feedbackService.getFeedbacksList();
     }
 
-    @GetMapping("/feedback/{id}")
+    @GetMapping("/feedbacks/{id}")
     public Feedback getFeedback(@PathVariable("id") Long feedbackId){
         return feedbackService.getFeedback(feedbackId);
     }
 
-    @PatchMapping("/feedback/{id}")
+    @PatchMapping("/feedbacks/{id}")
     public Feedback editFeedback(@PathVariable("id") Long feedbackId, @RequestBody FeedbackEditDTO feedbackEditDTO){
         return feedbackService.editFeedback(feedbackId, feedbackEditDTO);
+    }
+
+    @GetMapping("/dishes/{id}/feedbacks")
+    public Set<Feedback> getDishFeedbacks(@PathVariable("id") Long dishId){
+        return feedbackService.getDishFeedbacks(dishId);
+    }
+
+    @GetMapping("/recipes/{id}/feedbacks")
+    public Set<Feedback> getRecipeFeedbacks(@PathVariable("id") Long recipeId){
+        return feedbackService.getRecipeFeedbacks(recipeId);
     }
 
     @PostMapping("/dishes/{id}/feedbacks/create")
@@ -35,8 +46,8 @@ public class FeedbackController {
         return feedbackService.createDishFeedback(dishId, feedbackCreateDTO);
     }
 
-    @PatchMapping("/dishes/{id}/feedbacks/create")
-    public Feedback editDishFeedback(@PathVariable("id") Long dishId, @RequestBody FeedbackEditDTO feedbackEditDTO){
+    @PatchMapping("/dishes/{id}/feedbacks/{fid}")
+    public Feedback editDishFeedback(@PathVariable("id") Long dishId, @PathVariable("fid") Long feedbackId, @RequestBody FeedbackEditDTO feedbackEditDTO){
         return feedbackService.editDishFeedback(dishId, feedbackEditDTO);
     }
 
@@ -45,8 +56,8 @@ public class FeedbackController {
         return feedbackService.createRecipeFeedback(recipeId, feedbackCreateDTO);
     }
 
-    @PatchMapping("/recipes/{id}/feedbacks/create")
-    public Feedback editRecipeFeedback(@PathVariable("id") Long recipeId, @RequestBody FeedbackEditDTO feedbackEditDTO){
+    @PatchMapping("/recipes/{id}/feedbacks/{fid}")
+    public Feedback editRecipeFeedback(@PathVariable("id") Long recipeId, @PathVariable("fid") Long feedbackId, @RequestBody FeedbackEditDTO feedbackEditDTO){
         return feedbackService.editRecipeFeedback(recipeId, feedbackEditDTO);
     }
 }

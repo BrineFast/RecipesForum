@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .authorizeRequests()
                 .antMatchers(
                         DEFAULT_REDIRECT,
+                        "/**",
                         "/login",
                         "/registration",
                         "/api-docs",
@@ -68,6 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .formLogin()
                 .failureHandler(customAuthenticationFailureHandler())
                 .successHandler(customAuthenticationSuccessHandler())
+                .defaultSuccessUrl(rerouteURL)
                 .and()
                 .logout()
                 .logoutUrl("/logout")
@@ -90,8 +92,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(rerouteURL)
-                .allowedMethods("*");
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowCredentials(true)
+                .allowedHeaders("*");
     }
 
     @Bean

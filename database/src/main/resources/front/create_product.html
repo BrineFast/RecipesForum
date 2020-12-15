@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Hover Placeholder With Validation</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/formMain.css">
+</head>
+<body>
+
+
+
+<div class="container">
+	<h1>Add product</h1>
+	<form id="registration_form">
+		<div>
+			<input type="text" id="form_name" name="" required="">
+			<span class="error_form" id="name_error_message"></span>
+			<label>
+				Name
+			</label>
+		</div>
+		<div>
+			<input type="text" id="form_price" name="" required="">
+			<span class="error_form" id="price_error_message"></span>
+			<label>
+				Price
+			</label>
+		</div>
+		<div>
+			<input type="text" id="form_composition" name="" required="">
+			<span class="error_form" id="composition_error_message"></span>
+			<label>Composition id</label>
+		</div>
+		<div>
+			<input type="text" id="form_country" name="" required="">
+			<span class="error_form" id="country_error_message"></span>
+			<label>Country id</label>
+		</div>
+		<div>
+			<input type="text" id="form_type" name="" required="">
+			<span class="error_form" id="type_error_message"></span>
+			<label>Type id</label>
+		</div>
+		<div>
+			<input type="text" id="form_season" name="" required="">
+			<span class="error_form" id="season_error_message"></span>
+			<label>Season id</label>
+		</div>
+		<input type="submit" value="Add" name="">
+	</form>
+</div>
+<script type="text/javascript">
+	$(function() {
+
+		$("#name_error_message").hide();
+		$("#price_error_message").hide();
+		$("#composition_error_message").hide();
+		$("#country_error_message").hide();
+		$("#type_error_message").hide();
+		$("#season_error_message").hide();
+
+		var error_name = false;
+		var error_price = false;
+		var error_composition = false;
+		var error_type = false;
+		var error_country = false;
+		var error_season = false;
+
+		$("#form_name").focusout(function(){
+			check_name();
+		});
+		$("#form_price").focusout(function() {
+			check_price();
+		});
+		$("#form_composition").focusout(function() {
+			check_composition();
+		});
+		$("#form_country").focusout(function() {
+			check_country();
+		});
+		$("#form_type").focusout(function() {
+			check_type();
+		});
+		$("#form_season").focusout(function() {
+			check_season();
+		});
+
+		function check_name() {
+			var pattern = /^[a-zA-Z]*$/;
+			var water = $("#form_name").val();
+			if (pattern.test(water) && water !== ''){
+				$("#name_error_message").hide();
+				$("#form_name").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#name_error_message").html("Only characters");
+				$("#name_error_message").show();
+				$("#form_name").css("border-bottom","2px solid #F90A0A");
+				error_name = true;
+			}
+		}
+
+		function check_price() {
+			var price = $("#form_price").val();
+			if (price !== '' && price > 0 && price < 10000){
+				$("#price_error_message").hide();
+				$("#form_price").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#price_error_message").html("Should be > 0 and < 10000");
+				$("#price_error_message").show();
+				$("#form_price").css("border-bottom","2px solid #F90A0A");
+				error_price = true;
+			}
+		}
+
+		function check_composition() {
+			var composition = $("#form_composition").val();
+			if (composition !== '' && composition > 0){
+				$("#composition_error_message").hide();
+				$("#form_composition").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#composition_error_message").html("Should be > 0");
+				$("#composition_error_message").show();
+				$("#form_composition").css("border-bottom","2px solid #F90A0A");
+				error_composition = true;
+			}
+		}
+
+		function check_country() {
+			var country = $("#form_country").val();
+			if (country !== '' && country > 0){
+				$("#country_error_message").hide();
+				$("#form_country").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#country_error_message").html("Should be > 0");
+				$("#country_error_message").show();
+				$("#form_country").css("border-bottom","2px solid #F90A0A");
+				error_country = true;
+			}
+		}
+
+		function check_type() {
+			var type = $("#form_type").val();
+			if (type !== '' && type > 0){
+				$("#type_error_message").hide();
+				$("#form_type").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#type_error_message").html("Should be > 0");
+				$("#type_error_message").show();
+				$("#form_type").css("border-bottom","2px solid #F90A0A");
+				error_type = true;
+			}
+		}
+
+		function check_season() {
+			var season = $("#form_season").val();
+			if (season !== '' && season > 0){
+				$("#season_error_message").hide();
+				$("#form_season").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#season_error_message").html("Should be > 0");
+				$("#season_error_message").show();
+				$("#form_season").css("border-bottom","2px solid #F90A0A");
+				error_season = true;
+			}
+		}
+
+		$("#registration_form").submit(function() {
+			error_name = false;
+			error_price = false;
+			error_country = false;
+			error_type = false;
+			error_season = false;
+			error_composition = false;
+
+			check_name();
+			check_composition();
+			check_country();
+			check_price();
+			check_season();
+			check_type();
+
+			if (error_name === false && error_price === false && error_country === false && error_season === false && error_composition === false && error_type === false) {
+				let request = {
+					name: document.getElementById("form_name").value,
+					price: document.getElementById("form_price").value,
+					countryId: document.getElementById("form_country").value,
+					typeId: document.getElementById("form_type").value,
+					seasonId: document.getElementById("form_season").value,
+					compositionId: document.getElementById("form_composition").value,
+				};
+				console.log(request);
+				$.ajax({
+					url: "http://localhost:8080/products/create",
+					method: "post",
+					dataType: "json",
+					contentType: "application/json",
+					data: JSON.stringify(request),
+					statusCode: {
+						200: function () {
+							window.location.replace("http://localhost:4200/products.html");
+						}
+					},
+					xhrFields: {
+						withCredentials: true
+					}
+				});
+				alert("Product added");
+				window.location.replace("http://localhost:4200/products.html");
+			} else {
+				alert("Please Fill the form Correctly");
+				return false;
+			}
+		});
+	});
+</script>
+</body>
+</html>

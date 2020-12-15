@@ -2,8 +2,10 @@ package com.university.database.service.dish;
 
 import com.university.database.exception.entities.ItemNotFoundException;
 import com.university.database.model.dao.dish.DishRepo;
+import com.university.database.model.dao.dish.DishTopRepo;
 import com.university.database.model.dto.dish.DishCreateDTO;
 import com.university.database.model.dto.dish.DishEditDTO;
+import com.university.database.model.entity.dish.DishTop;
 import com.university.database.model.entity.dish.Dish;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,9 @@ public class DishService {
 
     @Autowired
     DishRepo dishRepo;
+
+    @Autowired
+    DishTopRepo dishTopRepo;
 
     @Transactional
     public Dish createDish(DishCreateDTO DishCreateDTO){
@@ -43,4 +48,7 @@ public class DishService {
         return dishRepo.save(Dish);
     }
 
+    public List<DishTop> getTopTenDishes(){
+        return dishTopRepo.most_popular_dish();
+    }
 }

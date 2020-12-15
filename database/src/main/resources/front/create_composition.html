@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Hover Placeholder With Validation</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/formMain.css">
+</head>
+<body>
+
+
+
+<div class="container">
+	<h1>Add composition</h1>
+	<form id="registration_form">
+		<div>
+			<input type="text" id="form_water" name="" required="">
+			<span class="error_form" id="water_error_message"></span>
+			<label>
+				Water
+			</label>
+		</div>
+		<div>
+			<input type="text" id="form_calories" name="" required="">
+			<span class="error_form" id="calories_error_message"></span>
+			<label>
+				Calories
+			</label>
+		</div>
+		<div>
+			<input type="text" id="form_carbohydrates" name="" required="">
+			<span class="error_form" id="carbohydrates_error_message"></span>
+			<label>Carbohydrates</label>
+		</div>
+		<div>
+			<input type="text" id="form_fats" name="" required="">
+			<span class="error_form" id="fats_error_message"></span>
+			<label>Fats</label>
+		</div>
+		<div>
+			<input type="text" id="form_protein" name="" required="">
+			<span class="error_form" id="protein_error_message"></span>
+			<label>Protein</label>
+		</div>
+		<input type="submit" value="Add" name="">
+	</form>
+</div>
+<script type="text/javascript">
+	$(function() {
+
+		$("#water_error_message").hide();
+		$("#calories_error_message").hide();
+		$("#carbohydrates_error_message").hide();
+		$("#fats_error_message").hide();
+		$("#protein_error_message").hide();
+
+		var error_water = false;
+		var error_calories = false;
+		var error_fats = false;
+		var error_protein = false;
+		var error_carbohydrates = false;
+
+		$("#form_water").focusout(function(){
+			check_water();
+		});
+		$("#form_calories").focusout(function() {
+			check_calories();
+		});
+		$("#form_carbohydrates").focusout(function() {
+			check_carbohydrates();
+		});
+		$("#form_fats").focusout(function() {
+			check_fats();
+		});
+		$("#form_protein").focusout(function() {
+			check_protein();
+		});
+
+		function check_water() {
+			var water = $("#form_water").val();
+			if (water !== '' && water > 0 && water < 30){
+				$("#water_error_message").hide();
+				$("#form_water").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#water_error_message").html("Should be > 0 and < 30");
+				$("#water_error_message").show();
+				$("#form_water").css("border-bottom","2px solid #F90A0A");
+				error_water = true;
+			}
+		}
+
+		function check_calories() {
+			var calories = $("#form_calories").val();
+			if (calories !== '' && calories > 0 && calories < 30){
+				$("#calories_error_message").hide();
+				$("#form_calories").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#calories_error_message").html("Should be > 0 and < 30");
+				$("#calories_error_message").show();
+				$("#form_calories").css("border-bottom","2px solid #F90A0A");
+				error_calories = true;
+			}
+		}
+
+		function check_carbohydrates() {
+			var carbohydrates = $("#form_carbohydrates").val();
+			if (carbohydrates !== '' && carbohydrates > 0 && carbohydrates < 30){
+				$("#carbohydrates_error_message").hide();
+				$("#form_carbohydrates").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#carbohydrates_error_message").html("Should be > 0 and < 30");
+				$("#carbohydrates_error_message").show();
+				$("#form_carbohydrates").css("border-bottom","2px solid #F90A0A");
+				error_carbohydrates = true;
+			}
+		}
+
+		function check_fats() {
+			var fats = $("#form_fats").val();
+			if (fats !== '' && fats > 0 && fats < 30){
+				$("#fats_error_message").hide();
+				$("#form_fats").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#fats_error_message").html("Should be > 0 and < 30");
+				$("#fats_error_message").show();
+				$("#form_fats").css("border-bottom","2px solid #F90A0A");
+				error_fats = true;
+			}
+		}
+
+		function check_protein() {
+			var protein = $("#form_protein").val();
+			if (protein !== '' && protein > 0 && protein < 30){
+				$("#protein_error_message").hide();
+				$("#form_protein").css("border-bottom","2px solid #34F458");
+			}
+			else{
+				$("#protein_error_message").html("Should be > 0 and < 30");
+				$("#protein_error_message").show();
+				$("#form_protein").css("border-bottom","2px solid #F90A0A");
+				error_protein = true;
+			}
+		}
+
+		$("#registration_form").submit(function() {
+			error_water = false;
+			error_calories = false;
+			error_fats = false;
+			error_protein = false;
+			error_carbohydrates = false;
+
+			check_water();
+			check_calories();
+			check_carbohydrates();
+			check_fats();
+			check_protein();
+
+			if (error_water === false && error_calories === false && error_fats === false && error_protein === false && error_carbohydrates === false) {
+				let request = {
+					water: document.getElementById("form_water").value,
+					calories: document.getElementById("form_calories").value,
+					carbohydrates: document.getElementById("form_carbohydrates").value,
+					fats: document.getElementById("form_fats").value,
+					protein: document.getElementById("form_protein").value,
+				};
+				console.log(request);
+				$.ajax({
+					url: "http://localhost:8080/compositions/create",
+					method: "post",
+					dataType: "json",
+					contentType: "application/json",
+					data: JSON.stringify(request),
+					statusCode: {
+						200: function () {
+							window.location.replace("http://localhost:4200/compositions.html");
+						}
+					},
+					xhrFields: {
+						withCredentials: true
+					}
+				});
+				alert("Composition added");
+			} else {
+				alert("Please Fill the form Correctly");
+				return false;
+			}
+		});
+	});
+</script>
+</body>
+</html>
